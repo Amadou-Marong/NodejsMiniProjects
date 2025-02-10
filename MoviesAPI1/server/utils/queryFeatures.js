@@ -18,6 +18,8 @@ export const queryFeatures = (model, queryParams) => {
     if(sort) {
         const sortBy = sort.split(',').join(' ')
         query = query.sort(sortBy)
+    } else {
+        query = query.sort('-createdAt')
     }
    
 
