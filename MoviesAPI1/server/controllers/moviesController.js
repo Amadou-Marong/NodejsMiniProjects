@@ -1,4 +1,5 @@
 import { Movie } from "../models/movieModel.js"
+import { queryFeatures } from "../utils/queryFeatures.js";
 
 // export const getAllMovies = async (req, res) => {
 //     try {
@@ -77,43 +78,47 @@ import { Movie } from "../models/movieModel.js"
 
 export const getAllMovies = async (req, res) => {
     try {
-        // Destructure query parameters
-        let { sort, fields, page = 1, limit = 10, ...filters } = req.query;
+        // // Destructure query parameters
+        // let { sort, fields, page = 1, limit = 10, ...filters } = req.query;
 
-        // Convert query parameters to MongoDB syntax (e.g., gt -> $gt)
-        let filterStr = JSON.stringify(filters).replace(
-            /\b(gt|gte|lt|lte)\b/g,
-            match => `$${match}`
-        );
-        filters = JSON.parse(filterStr);
+        // // Convert query parameters to MongoDB syntax (e.g., gt -> $gt)
+        // let filterStr = JSON.stringify(filters).replace(
+        //     /\b(gt|gte|lt|lte)\b/g,
+        //     match => `$${match}`
+        // );
+        // filters = JSON.parse(filterStr);
 
-        // Create MongoDB query
-        let query = Movie.find(filters);
+        // // Create MongoDB query
+        // let query = Movie.find(filters);
 
-        // Sorting
-        if (sort) {
-            const sortBy = sort.split(',').join(' ');
-            query = query.sort(sortBy);
-        } else {
-            query = query.sort('-createdAt');
-        }
+        // // Sorting
+        // if (sort) {
+        //     const sortBy = sort.split(',').join(' ');
+        //     query = query.sort(sortBy);
+        // } else {
+        //     query = query.sort('-createdAt');
+        // }
 
-        // Field selection
-        if (fields) {
-            const selectFields = fields.split(',').join(' ');
-            query = query.select(selectFields);
-        } else {
-            query = query.select('-__v');
-        }
+        // // Field selection
+        // if (fields) {
+        //     const selectFields = fields.split(',').join(' ');
+        //     query = query.select(selectFields);
+        // } else {
+        //     query = query.select('-__v');
+        // }
 
-        // Pagination
-        page = Number(page);
-        limit = Number(limit);
-        const skip = (page - 1) * limit;
+        // // Pagination
+        // page = Number(page);
+        // limit = Number(limit);
+        // const skip = (page - 1) * limit;
+
+        const {query, page, limit, filters} = queryFeatures(Movie, req.query)
 
         const totalMovies = await Movie.countDocuments(filters);
+        // Execute Query
+        const movies = await query;
 
-        if (skip >= totalMovies) {
+        if (!movies.length) {
             return res.status(200).json({
                 status: "success",
                 count: 0,
@@ -121,11 +126,6 @@ export const getAllMovies = async (req, res) => {
                 message: "No movies found for this page."
             });
         }
-
-        query = query.skip(skip).limit(limit);
-
-        // Execute Query
-        const movies = await query;
 
         res.status(200).json({
             status: "success",
