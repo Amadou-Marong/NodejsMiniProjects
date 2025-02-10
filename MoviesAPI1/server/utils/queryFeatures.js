@@ -22,5 +22,14 @@ export const queryFeatures = (model, queryParams) => {
         query = query.sort('-createdAt')
     }
    
+    // Field Selection
+    if(fields) {
+        const selectedFields = fields.split(',').join(' ')
+        query = query.select(selectedFields)
+    } else {
+        query = query.select('-__v')
+    }
+
+    
 
 }
