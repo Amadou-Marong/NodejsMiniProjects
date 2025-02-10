@@ -14,7 +14,11 @@ export const queryFeatures = (model, queryParams) => {
     // create mongoDB query
     let query = model.find(filters)
 
-    
+    // Sorting
+    if(sort) {
+        const sortBy = sort.split(',').join(' ')
+        query = query.sort(sortBy)
+    }
    
 
 }
