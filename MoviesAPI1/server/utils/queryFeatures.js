@@ -30,6 +30,12 @@ export const queryFeatures = (model, queryParams) => {
         query = query.select('-__v')
     }
 
-    
+    // Pagination
+    page = Number(page)
+    limit = Number(limit)
+    const skip = (page - 1) * limit
 
+    query = query.skip(skip).limit(limit)
+
+    return {query, page, limit, filters}
 }
