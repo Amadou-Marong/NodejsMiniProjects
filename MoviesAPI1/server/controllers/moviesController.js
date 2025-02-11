@@ -114,18 +114,20 @@ export const getAllMovies = async (req, res) => {
 export const getMovieStats = async (req, res) => {
     try {
         const stats = await Movie.aggregate([
-            {$match: {ratings: {$gte: 1}}},
+            {$match: {rating: {$gte: 4.5}}},
             {$group: {
                 _id: '$rating',
-                count: {$sum: 1},
-                averageRating: {$avg: '$rating'}
+                numMovies: {$sum: 1},
+                avgRating: {$avg: '$rating'},
+                minDuration: {$min: '$duration'},
+                maxDuration: {$max: '$duration'}
             }}
         ])
 
         res.status(200).send({
             status: "success",
             data: {
-                stats: stats
+                stats
             }
         })
     } catch (error) {

@@ -1,6 +1,6 @@
 import express from "express"
 
-import { getAllMovies, getMovieById, createMovie, updateMovie, deleteMovie} from "../controllers/moviesController.js"
+import { getAllMovies, getMovieById, createMovie, updateMovie, deleteMovie, getMovieStats} from "../controllers/moviesController.js"
 import { checkId, validateBody } from "../middlewares/validateMovie.js";
 import { getHighestRatedMovies } from "../middlewares/getHighestRated.js";
 
@@ -10,6 +10,9 @@ router.param('id', checkId)
 
 // get highest rated movies
 router.route("/highest-rated").get(getHighestRatedMovies, getAllMovies)
+
+// get movie statistics
+router.route("/movie-stats").get(getMovieStats)
 
 router.route("/")
     .get(getAllMovies)
