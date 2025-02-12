@@ -18,8 +18,15 @@ const MovieSchema = new mongoose.Schema({
     rating: {
         type: Number,
         default: 1.0,
-        min: 1.0,
-        max: 5.0
+        // min: [1.0, "The rating value should be atleast 1.0"],
+        // max: [5.0, "The rating should not be greater than 5.0"]
+        validate: {
+            validator: function(value) {
+                return value >= 1 && value <= 5
+            },
+            message: "The Rating should be atleast 1.0 and Atmost 5.0"
+        }
+
     },
     totalRatings: {
         type: Number,
@@ -38,6 +45,7 @@ const MovieSchema = new mongoose.Schema({
     },
     genres: {
         type: [String],
+        // enum: ["Action", "Comedy", "Drama", "Scifi"],
         required: [true, "Genres is a required field!"]
     },
     directors: {
