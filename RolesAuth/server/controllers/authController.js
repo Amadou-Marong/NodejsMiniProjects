@@ -5,23 +5,25 @@ import jwt from "jsonwebtoken"
 export const registerUser = async (req, res) => {
     try {
         const {name, email, password, role} = req.body
-        const user = await User.findOne({email: email})
-        if (user) {
+        const existingUser = await User.findOne({email: email})
+        if (existingUser) {
             return res.status(400).send({
                 message: "User with this email already exists"
             })
         }
         const salt = await bcrypt.genSalt(10)
-        let hasPassword = await bcrypt.hash(password, salt)
+        let hashedPassword = await bcrypt.hash(password, salt)
+
+        // let hash = await bcrypt.hash(password, 10)
         
         let userData = new User({
             name,
             email,
-            password: hasPassword,
+            password: hashedPassword,
             role
         })
 
-        userData.save()
+        await userData.save()
 
         return res.status(201).send({
             message: "User Registered Successfully",
@@ -38,17 +40,35 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     try {
         const {email, password} = req.body
-        const user = await User.findOne({email: email})
-        const match = await bcrypt.compare(password, user.password)
+        const user = await User.findOne({email})
 
-        if(!user || !match) {
-            return res.status(200).send({
-                message: "Invalid Email or Password"
+        if(!user) {
+            return res.status(404).send({
+                message: "Invalid Credentials"
             })
         }
+        const match = await bcrypt.compare(password, user.password)
         
+        if(!match){
+            return res.status(400).send({
+                message: "Invalid Credentials"
+            })
+        }
+        const token = jwt.sign({
+            id: user._id,
+            role: user.role
+        }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        })
+
+        return res.status(200).send({
+            message: "Login Successfull",
+            token
+        })
     } catch (error) {
-        
+        return res.status(500).send({
+            message: "Something went Wrong!"
+        })
     }
 }
 
