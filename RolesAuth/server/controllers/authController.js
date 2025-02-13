@@ -1,6 +1,9 @@
 import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import redisClient from "../config/redisClient.js"
+
+
 
 export const registerUser = async (req, res) => {
     try {
@@ -106,5 +109,21 @@ export const managerUsers = async (req, res) => {
 
 
 export const logoutUser = async (req, res) => {
-    return res.status(200).send("Logout User")
+    try {
+        const authHeader = req.headers.authorization || req.headers.Authorization
+        if(authHeader && authHeader.startsWith("Bearer ")){
+            const token = authHeader.split(" ")[1]
+            
+            // set token to with expiration
+            await redisClient.set(token, "blacklisted", "EX", 86400);
+
+            return res.status(200).send({
+                message: "Logout Successfull"
+            })
+        } 
+    } catch (error) {
+        return res.status(500).send({
+            message: "Something went wrong"
+        })
+    }
 }

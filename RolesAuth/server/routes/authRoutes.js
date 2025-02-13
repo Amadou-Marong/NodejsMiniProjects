@@ -8,6 +8,7 @@ const authRouter = express.Router()
 
 authRouter.route("/register").post(registerUser)
 authRouter.route("/login").post(loginUser)
+authRouter.route("/logout").post(verifyToken, loginUser)
 authRouter.route("/users").get(verifyToken, authorizeRoles("admin"), getUsers)
 authRouter.route("/managers").get(verifyToken, authorizeRoles("admin", "manager"), managerUsers)
 
