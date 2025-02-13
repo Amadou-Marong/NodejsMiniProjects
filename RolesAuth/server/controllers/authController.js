@@ -87,8 +87,23 @@ export const getUsers = async (req, res) => {
             message: "Something went wrong"
         })
     }
-
 }
+
+export const managerUsers = async (req, res) => {
+    try {
+        const users = await User.find({role: "manager"})
+        return res.status(200).send({
+            status: "success",
+            data: users
+        })
+    } catch (error) {
+        return res.status(500).send({
+            status: "failed",
+            message: "Something went wrong"
+        })
+    }
+}
+
 
 export const logoutUser = async (req, res) => {
     return res.status(200).send("Logout User")
