@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRouter)
 
+
 const connectDB = async () => {
     mongoose.connect(MONGO_URI).then(() => {
         console.log('Connected to database successfully: ', MONGO_URI);

@@ -74,6 +74,10 @@ export const loginUser = async (req, res) => {
     }
 }
 
+export const getUsers = async (req, res) => {
+    return res.status(200).send("Get Users")
+}
+
 export const logoutUser = async (req, res) => {
     return res.status(200).send("Logout User")
 }
