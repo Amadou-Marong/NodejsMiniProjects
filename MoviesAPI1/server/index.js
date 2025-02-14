@@ -11,12 +11,30 @@ const app = express()
 app.use(express.json())
 app.use(morgan('dev'))
 
+
+
+app.get('/', (req, res) => {
+    res.status(200).send('Hello from movies API')
+})
+
+
+app.use('/api/v1/movies', router);
+
+app.all('*', (req, res) => {
+    res.status(404).json({
+        status: 'fail',
+        message: `Can't find ${req.originalUrl} on this server`
+    })
+})
+
+
+
 const connectDB = () => {
     try {
         mongoose.connect(MONGO_URI).then(() => {
             console.log('Connected to database successfully: ', MONGO_URI);
             app.listen(PORT, () => {
-                console.log(`App is running on localhost:${PORT}`);
+                console.log(`App is running on http://localhost:${PORT}`);
             })
         })
     } catch (error) {
@@ -25,10 +43,3 @@ const connectDB = () => {
 }
 
 connectDB()
-
-app.get('/', (req, res) => {
-    res.status(200).send('Hello from movies API')
-})
-
-
-app.use('/api/v1/movies', router);
