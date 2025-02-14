@@ -27,7 +27,14 @@ app.all('*', (req, res) => {
     })
 })
 
+// global error handling middleware
+// app.use((err, req, res, next) => {
+//     res.statusCode = err.statusCode || 500
+//     res.status = err.status || "fail"
+//     res.message = err.message
 
+//     return res.status()
+// })
 
 const connectDB = () => {
     try {
