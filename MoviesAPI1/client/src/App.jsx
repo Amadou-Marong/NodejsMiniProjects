@@ -7,11 +7,9 @@ function App() {
 
   return (
     <>
-     <div className="p-6 w-full h-screen bg-gray-800">
+     <div className="p-6 w-full h-screen bg-gray-800 relative">
         <NavBar />
-        <div className="relative mt-1">
-          <SideBar />
-        </div>
+        <SideBar />
         <main className="pl-56 w-full">
           <HomePage />
         </main>

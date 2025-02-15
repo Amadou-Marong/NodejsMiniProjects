@@ -1,26 +1,15 @@
 const HomePage = () => {
   return (
-    <div className="w-full text-white">
-      <h1 className="text-3xl font-bold mb-4">Home Page</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div className="bg-gray-600 p-4 rounded-md">
-          <h2 className="text-xl font-semibold mb-2">Movie 1</h2>
-          <p className="text-sm">Description of Movie 1</p>
-        </div>
-        <div className="bg-gray-600 p-4 rounded-md">
-          <h2 className="text-xl font-semibold mb-2">Movie 2</h2>
-          <p className="text-sm">Description of Movie 2</p>
-        </div>
-        <div className="bg-gray-600 p-4 rounded-md">
-          <h2 className="text-xl font-semibold mb-2">Movie 3</h2>
-          <p className="text-sm">Description of Movie 3</p>
-        </div>
-        <div className="bg-gray-600 p-4 rounded-md">
-          <h2 className="text-xl font-semibold mb-2">Movie 3</h2>
-          <p className="text-sm">Description of Movie 3</p>
-        </div>
+    <section className="w-full text-white">
+      <div>
+      <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="" className="w-full h-90 rounded-md " />
       </div>
-    </div>
+      <div className="pt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <img src="https://cdn.dribbble.com/users/9760719/screenshots/20245215/new_adobeexpress_1_.png?format=webp&resize=320x240&vertical=center" alt="" className="w-full h-48 rounded-md" />
+        <img src="https://cdn.dribbble.com/users/9760719/screenshots/20245215/new_adobeexpress_1_.png?format=webp&resize=320x240&vertical=center" alt="" className="w-full h-48 rounded-md" />
+        <img src="https://cdn.dribbble.com/users/9760719/screenshots/20245215/new_adobeexpress_1_.png?format=webp&resize=320x240&vertical=center" alt="" className="w-full h-48 rounded-md" />
+      </div>
+    </section>
   )
 }
 

@@ -2,7 +2,7 @@ import { Bell, Smile } from "lucide-react"
 
 const Navbar = () => {
   return (
-    <nav className="hidden lg:flex items-center gap-1.5 w-full">
+    <nav className="hidden lg:flex items-center gap-1.5 w-full mb-4 sticky">
         <span className="text-red-500 font-extrabold text-3xl">Netflix</span>
         <ul className="px-6 items-center flex-col lg:flex-row justify-between text-white w-full gap-1.5 hidden lg:flex">
             <li className="w-full lg:w-auto">Browse by language</li>

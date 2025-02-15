@@ -8,7 +8,8 @@ const SideBar = () => {
     { icon: Shield, label: 'Roles & Permissions', path: '/roles' }
   ]
   return (
-    <div className="bg-gray-700 text-white fixed w-1/6 left-0 top-16 h-screen transition-all duration-300">
+    <div className="relative">
+      <div className="bg-gray-700 text-white fixed left-0 h-screen transition-all duration-300">
       <div className="p-4 mt-6">
         <nav className="space-y-1">
           {menuItems.map((item, key) => {
@@ -17,15 +18,16 @@ const SideBar = () => {
               <a
                 key={key}
                 href={item.path}
-                className="flex items gap-2 space-y-6 hover:bg-gray-600 transition-all duration-100 rounded-md p-2"
+                className="flex gap-2 hover:bg-red-500 transition-all duration-100 rounded-md p-2"
               >
-                <Icon size={20} />
+                  <Icon size={20} />
                 <span className="text-sm">{item.label}</span>
               </a>
             )
           })}
         </nav>
       </div>
+    </div>
     </div>
   )
 }
