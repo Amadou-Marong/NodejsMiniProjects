@@ -2,7 +2,11 @@ import mongoose from "mongoose"
 import express from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
-import router from "./routes/movieRoutes.js"
+
+// import router from "./routes/movieRoutes.js"
+import movieRouter from "./routes/movieRoutes.js"
+import userRouter from "./routes/authRoutes.js"
+
 dotenv.config()
 
 const PORT = process.env.PORT
@@ -18,7 +22,10 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/api/v1/movies', router);
+// app.use('/api/v1/movies', router);
+app.use('/api/v1/movies', movieRouter);
+
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
     // res.status(404).json({
