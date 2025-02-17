@@ -61,7 +61,19 @@ export const signIn = async (req, res) => {
 
 export const isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]
+        let token;
+
+        if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+            token = req.headers.authorization.split(" ")[1]
+        } else if (req.cookies.token) {
+            token = req.cookies.token
+        }
+        if(!token) {
+            return res.status(401).send({
+                status: "error",
+                message: "Unauthorized"
+            })
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         const user = await User.findById(decoded.id)
@@ -69,7 +81,7 @@ export const isAuthenticated = async (req, res, next) => {
         if(!user) {
             return res.status(401).send({
                 status: "error",
-                message: "Unauthorized"
+                message: "You are not logged in"
             })
         }
         next()
